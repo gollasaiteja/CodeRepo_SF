@@ -1,0 +1,40 @@
+<aura:component
+  controller="AccountsDisplayController"
+  description="Account table with column sorting example"
+  implements="flexipage:availableForAllPageTypes,force:appHostable,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName"
+>
+  <lightning:workspaceAPI aura:id="workspace"/>
+  <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+  
+  <!--aura attributes-->
+  <aura:attribute name="allData" type="List"/>
+  <aura:attribute name="accountColumns" type="List" />
+  <aura:attribute name="accountData" type="Object" />
+  <aura:attribute name="sortBy" type="String" />
+  <aura:attribute name="sortDirection" type="String" />
+  <aura:attribute name="draftValues" type="Object" default="[]" />
+  <lightning:card title="Financial Services Account Listing" iconName="standard:investment_account">
+    <div class="slds-p-around_small slds-grid slds-grid_align-spread slds-grid_vertical-align-start">
+    <div>
+          <span class="padding-right">
+    	<lightning:input type="search" lable="Search" placeholder="Search from Accounts" aura:id="SearchBox"
+                         onchange="{!c.searchTable}" />
+         </span>
+     </div>
+      </div>
+  <!--Lightning data table markup-->
+  <lightning:datatable
+    aura:id="accountTable"
+    keyField="Id"
+    hideCheckboxColumn="true"
+    columns="{!v.accountColumns}"
+    data="{!v.accountData}"
+    sortedBy="{!v.sortBy}"
+    sortedDirection="{!v.sortDirection}"
+    onsort="{!c.handleSort}"   
+    onrowaction="{! c.handleRowAction }" 
+    draftValues="{! v.draftValues }"
+    onsave ="{! c.handleSaveEdition }"                   
+  />
+   </lightning:card>
+</aura:component>
